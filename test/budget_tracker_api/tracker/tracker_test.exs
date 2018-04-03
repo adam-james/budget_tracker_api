@@ -20,6 +20,14 @@ defmodule BudgetTracker.TrackerTest do
       expense
     end
 
+    test "add_tag/2 adds tag to expense" do
+      expense = expense_fixture()
+      tag = tag_fixture()
+      {:ok, _expense_tag} = Tracker.add_tag(expense, tag)
+      expense = Repo.preload(expense, :tags)
+      assert Enum.member?(expense.tags, tag)
+    end
+
     test "list_expenses/0 returns all expenses" do
       expense = expense_fixture()
       assert Tracker.list_expenses() == [expense] |> Repo.preload(:tags)
@@ -82,6 +90,15 @@ defmodule BudgetTracker.TrackerTest do
         |> Tracker.create_tag()
 
       tag
+    end
+
+    test "find_tag/1 returns tag with given name" do
+      tag = tag_fixture()
+      assert Tracker.find_tag(tag.name) == tag
+    end
+
+    test "find_tag/1 returns nil if not found" do
+      assert Tracker.find_tag("huh?") |> is_nil()
     end
 
     test "list_tags/0 returns all tags" do

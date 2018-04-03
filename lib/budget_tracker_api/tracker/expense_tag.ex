@@ -16,5 +16,6 @@ defmodule BudgetTracker.Tracker.ExpenseTag do
     expense_tag
     |> cast(attrs, [:expense_id, :tag_id])
     |> validate_required([:expense_id, :tag_id])
+    |> unique_constraint(:tag_id, name: :expenses_tags_expense_id_tag_id_index)
   end
 end

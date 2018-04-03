@@ -9,6 +9,22 @@ defmodule BudgetTracker.Tracker do
   alias BudgetTracker.Tracker.{Expense, ExpenseTag, Tag}
 
   @doc """
+  Finds a tag using it's name. Returns nil if not found.
+
+  ## Examples
+
+    iex> find_tag(name)
+    %Tag{}
+
+    iex> find_tag(invalid_name)
+    nil
+
+  """
+  def find_tag(name) do
+    Repo.one from t in Tag, where: t.name == ^name
+  end
+
+  @doc """
   Adds a tag to an expense.
 
   ## Examples

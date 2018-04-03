@@ -23,7 +23,9 @@ defmodule BudgetTrackerWeb.Router do
   scope "/api", BudgetTrackerWeb do
     pipe_through :api
 
-    resources "/expenses", ExpenseController, except: [:new, :edit]
+    resources "/expenses", ExpenseController, except: [:new, :edit] do
+      resources "/tags", ExpenseTagController, only: [:create]
+    end
     resources "/tags", TagController, except: [:new, :edit]
   end
 end
