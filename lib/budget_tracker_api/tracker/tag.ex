@@ -1,10 +1,12 @@
 defmodule BudgetTracker.Tracker.Tag do
   use Ecto.Schema
   import Ecto.Changeset
+  alias BudgetTracker.Tracker.{Expense, ExpenseTag}
 
 
   schema "tags" do
     field :name, :string
+    many_to_many :expenses, Expense, join_through: ExpenseTag, unique: true
 
     timestamps()
   end

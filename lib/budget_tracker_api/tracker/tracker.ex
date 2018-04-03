@@ -6,7 +6,25 @@ defmodule BudgetTracker.Tracker do
   import Ecto.Query, warn: false
   alias BudgetTracker.Repo
 
-  alias BudgetTracker.Tracker.Expense
+  alias BudgetTracker.Tracker.{Expense, ExpenseTag, Tag}
+
+  @doc """
+  Adds a tag to an expense.
+
+  ## Examples
+
+    iex> add_tag(valid_expense, valid_tag)
+    {:ok. %ExpenseTag{}}
+
+    iex> add_tag(invalid_expense, invalid_tag)
+    {:error, %Ecto.Changeset{}}
+
+  """
+  def add_tag(expense, tag) do
+    changeset = ExpenseTag.changeset(%ExpenseTag{},
+      %{expense_id: expense.id, tag_id: tag.id})
+    Repo.insert(changeset)
+  end
 
   @doc """
   Returns the list of expenses.
@@ -18,7 +36,7 @@ defmodule BudgetTracker.Tracker do
 
   """
   def list_expenses do
-    Repo.all(Expense)
+    Repo.all(Expense) |> Repo.preload(:tags)
   end
 
   @doc """
@@ -35,7 +53,10 @@ defmodule BudgetTracker.Tracker do
       ** (Ecto.NoResultsError)
 
   """
-  def get_expense!(id), do: Repo.get!(Expense, id)
+  def get_expense!(id) do
+    Repo.get!(Expense, id)
+    |> Repo.preload(:tags)
+  end
 
   @doc """
   Creates a expense.
@@ -101,8 +122,6 @@ defmodule BudgetTracker.Tracker do
   def change_expense(%Expense{} = expense) do
     Expense.changeset(expense, %{})
   end
-
-  alias BudgetTracker.Tracker.Tag
 
   @doc """
   Returns the list of tags.
