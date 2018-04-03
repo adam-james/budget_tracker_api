@@ -1,6 +1,7 @@
 defmodule BudgetTracker.TrackerTest do
   use BudgetTracker.DataCase
 
+  alias BudgetTracker.Repo
   alias BudgetTracker.Tracker
 
   describe "expenses" do
@@ -21,12 +22,12 @@ defmodule BudgetTracker.TrackerTest do
 
     test "list_expenses/0 returns all expenses" do
       expense = expense_fixture()
-      assert Tracker.list_expenses() == [expense]
+      assert Tracker.list_expenses() == [expense] |> Repo.preload(:tags)
     end
 
     test "get_expense!/1 returns the expense with given id" do
       expense = expense_fixture()
-      assert Tracker.get_expense!(expense.id) == expense
+      assert Tracker.get_expense!(expense.id) == expense |> Repo.preload(:tags)
     end
 
     test "create_expense/1 with valid data creates a expense" do
@@ -52,7 +53,7 @@ defmodule BudgetTracker.TrackerTest do
     test "update_expense/2 with invalid data returns error changeset" do
       expense = expense_fixture()
       assert {:error, %Ecto.Changeset{}} = Tracker.update_expense(expense, @invalid_attrs)
-      assert expense == Tracker.get_expense!(expense.id)
+      assert expense |> Repo.preload(:tags) == Tracker.get_expense!(expense.id)
     end
 
     test "delete_expense/1 deletes the expense" do

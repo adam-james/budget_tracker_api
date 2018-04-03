@@ -34,7 +34,8 @@ defmodule BudgetTrackerWeb.ExpenseControllerTest do
         "id" => id,
         "amount" => 120.5,
         "date" => "2010-04-17",
-        "description" => "some description"}
+        "description" => "some description",
+        "tags" => []}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -55,7 +56,8 @@ defmodule BudgetTrackerWeb.ExpenseControllerTest do
         "id" => id,
         "amount" => 456.7,
         "date" => "2011-05-18",
-        "description" => "some updated description"}
+        "description" => "some updated description",
+        "tags" => []}
     end
 
     test "renders errors when data is invalid", %{conn: conn, expense: expense} do

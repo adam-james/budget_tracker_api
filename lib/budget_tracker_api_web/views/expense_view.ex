@@ -12,10 +12,25 @@ defmodule BudgetTrackerWeb.ExpenseView do
   end
 
   def render("expense.json", %{expense: expense}) do
+    if is_list(expense.tags) do
+      render_with_tags(expense)
+    else
+      render_without_tags(expense)
+    end
+  end
+
+  defp render_with_tags(expense) do
     %{id: expense.id,
       date: expense.date,
       description: expense.description,
       amount: expense.amount,
       tags: render_many(expense.tags, TagView, "tag.json")}
+  end
+
+  defp render_without_tags(expense) do
+    %{id: expense.id,
+      date: expense.date,
+      description: expense.description,
+      amount: expense.amount}
   end
 end
