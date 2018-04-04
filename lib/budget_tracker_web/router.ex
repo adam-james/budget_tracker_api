@@ -28,4 +28,13 @@ defmodule BudgetTrackerWeb.Router do
     end
     resources "/tags", TagController, except: [:new, :edit]
   end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "0.0.1",
+        title: "Budget Tracker API"
+      }
+    }
+  end
 end
