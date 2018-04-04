@@ -29,6 +29,11 @@ defmodule BudgetTrackerWeb.Router do
     resources "/tags", TagController, except: [:new, :edit]
   end
 
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :budget_tracker_api,
+                                                swagger_file: "swagger.json"
+  end
+
   def swagger_info do
     %{
       info: %{
