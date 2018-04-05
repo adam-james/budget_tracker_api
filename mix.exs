@@ -41,7 +41,8 @@ defmodule BudgetTracker.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:phoenix_swagger, "~> 0.8"}
+      {:phoenix_swagger, "~> 0.8"},
+      {:cors_plug, "~> 1.5"}
     ]
   end
 
